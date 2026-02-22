@@ -10,17 +10,17 @@ import time
 import speech_recognition as sr
 from dotenv import load_dotenv
 
-# .env dosyasındaki değişkenleri sisteme yükle
+
 load_dotenv()
 
-# Ses sistemini başlat
+
 pygame.mixer.init()
 
 # --- AYARLAR VE KİMLİK BİLGİLERİ (.env'den çekiliyor) ---
-# Eğer .env'de bulunamazsa virgülden sonraki varsayılan değerleri kullanır
-LATITUDE = os.getenv("LATITUDE", "41.0067")
-LONGITUDE = os.getenv("LONGITUDE", "39.7229")
-SEHIR = os.getenv("SEHIR", "Trabzon")
+
+LATITUDE = os.getenv("LATITUDE")
+LONGITUDE = os.getenv("LONGITUDE")
+SEHIR = os.getenv("SEHIR")
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 VARSAYILAN_CHAT_ID = os.getenv("VARSAYILAN_CHAT_ID")
