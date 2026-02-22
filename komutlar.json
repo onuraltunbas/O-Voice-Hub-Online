@@ -1,0 +1,42 @@
+{
+    "selam_ozel": {
+      "anahtarlar": ["günaydın", "iyi sabahlar", "iyi sabah", "günaydın canım"],
+      "cevap": ["Günaydın! {hava} Ayrıca bugün veya yakında bir etkinliğiniz görünmüyor."]
+    },
+    "zaman": {
+      "anahtarlar": ["saat", "saat kaç", "şu an saat", "kaç", "zaman"],
+      "cevap": ["Şu an saat {saat}", "{saat}", "Saat {saat}"]
+    },
+    "tarih": {
+      "anahtarlar": ["tarih", "bugün ne", "günlerden ne", "hangi gündeyiz"],
+      "cevap": ["Bugün {tarih}"]
+    },
+    "selam": {
+      "anahtarlar": ["merhaba", "selam", "hey", "naber", "nasılsın"],
+      "cevap": ["Merhaba, ne var ne yok?", "Selam! Nasılsın, iyi misin?"]
+    },
+    "led_1_ac": {
+      "anahtarlar": ["sol sinyali aç", "sol sinyal ver", "sol sinyal"],
+      "cevap": ["Sol sinyal verildi, dönüşe hazırız.", "Sol sinyal açık."]
+    },
+    "led_1_kapat": {
+      "anahtarlar": ["sol sinyali kapat", "sol sinyali söndür", "sol sinyali kes"],
+      "cevap": ["Sol sinyal kapatıldı."]
+    },
+    "led_2_ac": {
+      "anahtarlar": ["farları aç", "farı aç", "farları yak", "aydınlatmaları aç"],
+      "cevap": ["Farlar açıldı, yolunuz aydınlık Onur.", "Farları aktif ettim."]
+    },
+    "led_2_kapat": {
+      "anahtarlar": ["farları kapat", "farı kapat", "farları söndür"],
+      "cevap": ["Farlar kapatıldı."]
+    },
+    "led_3_ac": {
+      "anahtarlar": ["sağ sinyali aç", "sağ sinyal ver", "sağ sinyal"],
+      "cevap": ["Sağ sinyal verildi, dönüşe hazırız.", "Sağ sinyal açık."]
+    },
+    "led_3_kapat": {
+      "anahtarlar": ["sağ sinyali kapat", "sağ sinyali söndür", "sağ sinyali kes"],
+      "cevap": ["Sağ sinyal kapatıldı."]
+    }
+}

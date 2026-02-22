@@ -1,0 +1,7 @@
+pygame
+requests
+gTTS
+pyserial
+SpeechRecognition
+PyAudio
+python-dotenv
