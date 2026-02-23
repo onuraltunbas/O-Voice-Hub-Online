@@ -1,3 +1,7 @@
+# Copyright (c) 2026 Remzican Onur Altunbaş
+# Non-Commercial License
+# Commercial use prohibited without permission
+
 import json
 import os
 import random

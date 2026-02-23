@@ -1,3 +1,7 @@
+// Copyright (c) 2026 Onur
+// Non-Commercial License
+// Commercial use prohibited without permission
+
 int led1Pin = 11;
 int led2Pin = 12;
 int led3Pin = 13;

@@ -70,3 +70,14 @@ Sistem çalıştıktan sonra mikrofonunuzdan şu tarz komutlar verebilirsiniz:
 ├── requirements.txt   # Gerekli Python kütüphaneleri listesi
 └── .env.example       # Örnek ortam değişkenleri şablonu
 ```
+
+## 📄 License
+
+This project is licensed under a **Non-Commercial License**.
+
+You may use, modify, and share this project for **personal, educational, and non-commercial purposes only**.
+
+🚫 **Commercial use is strictly prohibited** without prior written permission from the author.
+
+For commercial licensing inquiries, please contact the author.
+See the LICENSE file for full details.
