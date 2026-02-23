@@ -1,8 +1,10 @@
-# Jarvis Sesli Kontrol & Otomasyon Sistemi
+# O-Voice-Hub-Online — Çevrimiçi Sesli Kontrol & Otomasyon Asistanı
 
 Bu proje, Python üzerinden sesli komutlar alarak hem bilgisayar üzerinden işlemler yapan (Telegram mesajı gönderme, hava durumu, saat vb.) hem de Arduino üzerinden fiziksel donanımı (LED/Sinyal) kontrol eden kişisel bir asistan uygulamasıdır.
 
-## 🚀 Özellikler
+---
+
+## 🌟 Özellikler
 
 * **Sesli Komut Tanıma:** Google Speech Recognition API ile Türkçe sesli komut desteği.
 * **Donanım Kontrolü:** Seri port üzerinden Arduino'ya bağlı LED'leri (sinyal ve far simülasyonu) kontrol etme.
@@ -12,11 +14,12 @@ Bu proje, Python üzerinden sesli komutlar alarak hem bilgisayar üzerinden işl
 
 ---
 
-## 🛠️ Kurulum
+## ⚙️ Kurulum
 
 ### 1. Python Gereksinimleri
 
 Öncelikle bilgisayarınızda Python 3.x yüklü olduğundan emin olun. Ardından projeyi indirip ana dizinde terminali açarak gerekli kütüphaneleri yükleyin:
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -45,6 +48,12 @@ Projenin API anahtarlarını, konum bilgilerini ve port ayarlarını kendi siste
    - Windows: `COM3`
    - Linux: `/dev/ttyUSB0`
 
+### 4. Asistanı Çalıştırma
+
+```bash
+python3 main.py
+```
+
 ---
 
 ## 🎙️ Örnek Komutlar
@@ -63,6 +72,7 @@ Sistem çalıştıktan sonra mikrofonunuzdan şu tarz komutlar verebilirsiniz:
 ---
 
 ## 📁 Dosya Yapısı
+
 ```
 ├── main.py            # Ana Python asistan uygulaması
 ├── komutlar.json      # Sesli komut anahtarları ve sistem cevapları
@@ -70,6 +80,8 @@ Sistem çalıştıktan sonra mikrofonunuzdan şu tarz komutlar verebilirsiniz:
 ├── requirements.txt   # Gerekli Python kütüphaneleri listesi
 └── .env.example       # Örnek ortam değişkenleri şablonu
 ```
+
+---
 
 ## 📄 License
 
