@@ -1,7 +1,7 @@
 {
     "selam_ozel": {
       "anahtarlar": ["günaydın", "iyi sabahlar", "iyi sabah", "günaydın canım"],
-      "cevap": ["Günaydın! {hava} Ayrıca bugün veya yakında bir etkinliğiniz görünmüyor."]
+      "cevap": ["Günaydın! {hava}."]
     },
     "zaman": {
       "anahtarlar": ["saat", "saat kaç", "şu an saat", "kaç", "zaman"],
@@ -25,7 +25,7 @@
     },
     "led_2_ac": {
       "anahtarlar": ["farları aç", "farı aç", "farları yak", "aydınlatmaları aç"],
-      "cevap": ["Farlar açıldı, yolunuz aydınlık Onur.", "Farları aktif ettim."]
+      "cevap": ["Farlar açıldı, yolunuz aydınlık", "Farları aktif ettim."]
     },
     "led_2_kapat": {
       "anahtarlar": ["farları kapat", "farı kapat", "farları söndür"],
