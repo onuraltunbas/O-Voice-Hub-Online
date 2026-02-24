@@ -1,0 +1,9 @@
+# Çevre Değişkenleri (Gizli tutulmalı!)
+.env
+
+# Python Önbellek Dosyaları
+__pycache__/
+*.pyc
+
+# Geçici Ses Dosyaları
+ses.mp3
