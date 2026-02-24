@@ -29,7 +29,7 @@ SEHIR = os.getenv("SEHIR")
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 VARSAYILAN_CHAT_ID = os.getenv("VARSAYILAN_CHAT_ID")
-ARDUINO_PORT = os.getenv("ARDUINO_PORT", "/dev/ttyACM0")
+ARDUINO_PORT = os.getenv("ARDUINO_PORT", "/dev/ttyUSB0")
 
 # --- REHBER (.env'den JSON olarak çekiliyor) ---
 try:
