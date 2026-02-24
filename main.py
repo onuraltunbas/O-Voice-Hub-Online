@@ -12,30 +12,35 @@ import pygame
 import serial
 import time
 import speech_recognition as sr
+import warnings
 from dotenv import load_dotenv
 
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 load_dotenv()
-
 
 pygame.mixer.init()
 
 # --- AYARLAR VE KİMLİK BİLGİLERİ (.env'den çekiliyor) ---
-
 LATITUDE = os.getenv("LATITUDE")
 LONGITUDE = os.getenv("LONGITUDE")
 SEHIR = os.getenv("SEHIR")
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 VARSAYILAN_CHAT_ID = os.getenv("VARSAYILAN_CHAT_ID")
-MEVLUT_CHAT_ID = os.getenv("MEVLUT_CHAT_ID")
-ARDUINO_PORT = os.getenv("ARDUINO_PORT", "/dev/ttyUSB0")
+ARDUINO_PORT = os.getenv("ARDUINO_PORT", "/dev/ttyACM0")
 
-# --- REHBER ---
-REHBER = {
-    "mevlüt": MEVLUT_CHAT_ID,
-    "kendim": VARSAYILAN_CHAT_ID
-}
+# --- REHBER (.env'den JSON olarak çekiliyor) ---
+try:
+    # .env içindeki REHBER satırını okur ve Python sözlüğüne çevirir
+    REHBER = json.loads(os.getenv("REHBER", "{}"))
+    # Eğer .env'de 'kendim' unutulursa varsayılan chat ID'yi otomatik ekler
+    if "kendim" not in REHBER:
+        REHBER["kendim"] = VARSAYILAN_CHAT_ID
+except json.JSONDecodeError:
+    print("HATA: .env dosyasındaki REHBER formatı hatalı! JSON formatında olmalı.")
+    REHBER = {"kendim": VARSAYILAN_CHAT_ID}
 
 # --- ARDUINO BAĞLANTISI ---
 try:
@@ -122,19 +127,21 @@ def konus(metin):
 def dinle():
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        print("\n🎙️ Seni dinliyorum Onur...")
+        print("\n🎙️ Seni dinliyorum Onur (TR/EN)...")
         r.adjust_for_ambient_noise(source, duration=0.5) 
         try:
             audio = r.listen(source, timeout=5, phrase_time_limit=5) 
-            metin = r.recognize_google(audio, language="tr-TR")
+            
+            metin = r.recognize_whisper(audio, model="base")
             print(f"Sen söyledin: {metin}")
-            return metin.lower()
+            return metin.lower().strip()
+            
         except sr.WaitTimeoutError:
             return ""
         except sr.UnknownValueError:
             return ""
-        except sr.RequestError:
-            print("Google Ses API'sine ulaşılamıyor. İnternetini kontrol et.")
+        except Exception as e:
+            print(f"Ses algılama hatası: {e}")
             return ""
 
 def cevapla(komut, komutlar):
@@ -182,7 +189,7 @@ def jarvis_calistir():
     else:
         komutlar = {}
 
-    konus("Sistemler aktif Onur, emirlerini bekliyorum.")
+    konus("Sistemler aktif Onur, emirlerini bekliyorum. Systems are online.")
 
     while True:
         try:
@@ -191,8 +198,8 @@ def jarvis_calistir():
             if not komut: 
                 continue 
             
-            if "kapat" in komut.lower() and "sistemleri" in komut.lower() or "görüşürüz" in komut.lower():
-                konus("Görüşürüz, sistemleri kapatıyorum.")
+            if any(x in komut for x in ["kapat", "görüşürüz", "shut down", "goodbye", "exit"]):
+                konus("Görüşürüz, sistemleri kapatıyorum. Shutting down.")
                 break
             
             yanit = cevapla(komut, komutlar)

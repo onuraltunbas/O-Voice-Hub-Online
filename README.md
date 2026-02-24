@@ -1,15 +1,17 @@
-# O-Voice-Hub-Online — Çevrimiçi Sesli Kontrol & Otomasyon Asistanı
+# O-Voice-Hub-Online — Jarvis Sesli Kontrol & Otomasyon Sistemi
 
 Bu proje, Python üzerinden sesli komutlar alarak hem bilgisayar üzerinden işlemler yapan (Telegram mesajı gönderme, hava durumu, saat vb.) hem de Arduino üzerinden fiziksel donanımı (LED/Sinyal) kontrol eden kişisel bir asistan uygulamasıdır.
+
+Ses tanıma motoru olarak OpenAI Whisper modeli kullanılmakta; metin okuma ise Google Text-to-Speech (`gTTS`) ile gerçekleştirilmektedir. İnternet bağlantısı zorunludur.
 
 ---
 
 ## 🌟 Özellikler
 
-* **Sesli Komut Tanıma:** Google Speech Recognition API ile Türkçe sesli komut desteği.
-* **Donanım Kontrolü:** Seri port üzerinden Arduino'ya bağlı LED'leri (sinyal ve far simülasyonu) kontrol etme.
-* **Telegram Entegrasyonu:** Belirlenen kişilere sesli komutla Telegram üzerinden otomatik mesaj gönderme.
-* **Anlık Bilgi:** Hava durumu, tarih ve saat bilgilerini sesli olarak paylaşma.
+* **Çift Dilli Sesli Komut Tanıma:** OpenAI Whisper modeli (`base`) ile hem Türkçe hem de İngilizce komutları otomatik olarak algılar.
+* **Donanım Kontrolü:** Seri port üzerinden Arduino'ya bağlı 3 ayrı LED'i (sol sinyal, farlar, sağ sinyal) bağımsız olarak kontrol eder.
+* **Telegram Entegrasyonu:** Belirlenen kişilere sesli komutla Telegram üzerinden otomatik mesaj gönderir.
+* **Anlık Bilgi:** Open-Meteo API üzerinden hava durumu, tarih ve saat bilgilerini sesli olarak paylaşır.
 * **Güvenli Yapı:** API anahtarları ve kişisel ayarlar `.env` dosyası ile korunmaktadır.
 
 ---
@@ -35,7 +37,17 @@ pip install -r requirements.txt
 Projenin API anahtarlarını, konum bilgilerini ve port ayarlarını kendi sisteminize göre yapılandırmanız gerekmektedir:
 
 1. Proje klasöründeki `.env.example` dosyasının adını `.env` olarak değiştirin (veya kopyasını oluşturup adını `.env` yapın).
-2. Oluşturduğunuz `.env` dosyasını bir metin editörüyle açın ve kendi bilgilerinizi (Telegram Token, Chat ID, Arduino Portu vb.) ilgili alanlara girin.
+2. Oluşturduğunuz `.env` dosyasını bir metin editörüyle açın ve aşağıdaki alanları doldurun:
+
+| Değişken | Açıklama |
+|---|---|
+| `LATITUDE` | Hava durumu için konumunuzun enlemi |
+| `LONGITUDE` | Hava durumu için konumunuzun boylamı |
+| `SEHIR` | Hava durumu bildiriminde kullanılacak şehir adı |
+| `TELEGRAM_TOKEN` | BotFather'dan aldığınız Telegram bot token'ı |
+| `VARSAYILAN_CHAT_ID` | Varsayılan mesaj alıcısının Telegram Chat ID'si |
+| `ARDUINO_PORT` | Arduino'nun bağlı olduğu seri port (varsayılan: `/dev/ttyUSB0`) |
+| `REHBER_<ISIM>` | Rehberdeki her kişi için ayrı bir satır. Örnek: `REHBER_MEVLUT=<chat_id>`. Sesli komutta geçen isim bu değişken adıyla eşleştirilir. |
 
 ### 3. Donanım Bağlantısı (Arduino)
 
@@ -62,12 +74,15 @@ Sistem çalıştıktan sonra mikrofonunuzdan şu tarz komutlar verebilirsiniz:
 
 | Komut | Açıklama |
 |---|---|
-| "Farları aç" / "Farları kapat" | Far LED'ini kontrol eder |
-| "Sol sinyal ver" / "Sağ sinyal ver" | Sinyal LED'ini kontrol eder |
-| "Hava durumu nasıl?" | Anlık hava durumunu sesli okur |
+| "Farları aç" / "Farları kapat" | Far LED'ini (Pin 12) kontrol eder |
+| "Sol sinyal ver" / "Sol sinyali kapat" | Sol sinyal LED'ini (Pin 11) kontrol eder |
+| "Sağ sinyal ver" / "Sağ sinyali kapat" | Sağ sinyal LED'ini (Pin 13) kontrol eder |
+| "Hava durumu nasıl?" | Open-Meteo API'den anlık hava durumunu sesli okur |
 | "Şu an saat kaç?" | Güncel saati sesli bildirir |
 | "Telegramdan Mevlüt'e naber yaz" | Telegram üzerinden mesaj gönderir |
-| "Sistemleri kapat" | Programdan güvenli çıkış yapar |
+| "Kapat" / "Shut down" / "Goodbye" | Programdan güvenli çıkış yapar |
+
+> **Not:** Tüm komut anahtar kelimeleri ve sistem yanıtları `komutlar.json` dosyasından yönetilmektedir. Yeni komutlar bu dosyaya eklenerek sistemin davranışı özelleştirilebilir.
 
 ---
 
