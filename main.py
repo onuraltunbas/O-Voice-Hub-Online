@@ -89,7 +89,7 @@ def telegram_mesaj_gonder(komut):
 
     icerik = komut.lower().replace("telegramdan", "").replace("mesaj gönder", "").replace("e ", "").replace("a ", "").strip()
     if not icerik:
-        icerik = "Jarvis üzerinden otomatik mesaj."
+        icerik = "Asistan üzerinden otomatik mesaj."
 
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     try:
@@ -102,7 +102,7 @@ def telegram_mesaj_gonder(komut):
         return "Bağlantı hatası: İnternetini kontrol et."
 
 def konus(metin):
-    print("Jarvis:", metin)
+    print("Asistan:", metin)
     tts = gTTS(text=metin, lang='tr')
     dosya = "ses.mp3"
     tts.save(dosya)
@@ -127,7 +127,7 @@ def konus(metin):
 def dinle():
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        print("\n🎙️ Seni dinliyorum Onur (TR/EN)...")
+        print("\n🎙️ Seni dinliyorum (TR/EN)...")
         r.adjust_for_ambient_noise(source, duration=0.5) 
         try:
             audio = r.listen(source, timeout=5, phrase_time_limit=5) 
@@ -182,14 +182,14 @@ def cevapla(komut, komutlar):
 
     return ""
 
-def jarvis_calistir():
+def asistan_calistir():
     if os.path.exists('komutlar.json'):
         with open('komutlar.json', 'r', encoding='utf-8') as f:
             komutlar = json.load(f)
     else:
         komutlar = {}
 
-    konus("Sistemler aktif Onur, emirlerini bekliyorum. Systems are online.")
+    konus("Sistemler aktif, emirlerini bekliyorum.")
 
     while True:
         try:
@@ -210,4 +210,4 @@ def jarvis_calistir():
             break
 
 if __name__ == "__main__":
-    jarvis_calistir()
+    asistan_calistir()
