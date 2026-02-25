@@ -14,6 +14,7 @@ import time
 import speech_recognition as sr
 import warnings
 from dotenv import load_dotenv
+from ctypes import *
 
 # --- ALSA (LINUX SES) UYARILARINI GİZLEME SİHRİ ---
 try:
@@ -96,7 +97,6 @@ def telegram_mesaj_gonder(komut):
             hedef_isim = isim.capitalize()
             break
 
-    # İngilizce "send message to [name]" kalıplarını temizleme
     icerik = komut.lower().replace("send a message", "").replace("send message", "").replace("telegram", "").replace("to", "").replace(hedef_isim.lower(), "").strip()
     
     if not icerik:
@@ -114,7 +114,6 @@ def telegram_mesaj_gonder(komut):
 
 def konus(metin):
     print("Assistant:", metin)
-    # gTTS motoru artık tamamen İngilizce (en) aksanıyla konuşacak
     tts = gTTS(text=metin, lang='en')
     dosya = "ses.mp3"
     tts.save(dosya)
@@ -139,7 +138,7 @@ def konus(metin):
 def dinle():
     r = sr.Recognizer()
     
-    # HIZLANDIRMA AYARLARI BURADA
+    # --- HIZLANDIRMA AYARLARI ---
     r.pause_threshold = 0.4  # Cümle bittikten sonra bekleme süresini yarı yarıya düşürdük
     r.non_speaking_duration = 0.2 # Sessizlik algılama hassasiyeti artırıldı
     
@@ -147,11 +146,8 @@ def dinle():
         print("\n🎙️ Listening to you (EN)...")
         r.adjust_for_ambient_noise(source, duration=0.5) 
         try:
-            # timeout: Asistanın senin konuşmaya başlamanı bekleyeceği maksimum süre
-            # phrase_time_limit: Senin maksimum konuşma süren (Çok uzun tutmamak hızı artırır)
             audio = r.listen(source, timeout=3, phrase_time_limit=4) 
             
-            print("Processing audio...")
             metin = r.recognize_whisper(audio, model="base", language="english")
             print(f"You said: {metin}")
             return metin.lower().strip()
