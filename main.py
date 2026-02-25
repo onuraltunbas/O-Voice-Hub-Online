@@ -33,23 +33,21 @@ ARDUINO_PORT = os.getenv("ARDUINO_PORT", "/dev/ttyUSB0")
 
 # --- REHBER (.env'den JSON olarak çekiliyor) ---
 try:
-    # .env içindeki REHBER satırını okur ve Python sözlüğüne çevirir
     REHBER = json.loads(os.getenv("REHBER", "{}"))
-    # Eğer .env'de 'kendim' unutulursa varsayılan chat ID'yi otomatik ekler
     if "kendim" not in REHBER:
         REHBER["kendim"] = VARSAYILAN_CHAT_ID
 except json.JSONDecodeError:
-    print("HATA: .env dosyasındaki REHBER formatı hatalı! JSON formatında olmalı.")
+    print("ERROR: The REHBER format in the .env file is incorrect! It must be in JSON format.")
     REHBER = {"kendim": VARSAYILAN_CHAT_ID}
 
 # --- ARDUINO BAĞLANTISI ---
 try:
     arduino = serial.Serial(ARDUINO_PORT, 9600, timeout=1)
     time.sleep(2) 
-    print("Arduino bağlantısı başarılı!")
+    print("Arduino connection successful!")
 except Exception as e:
     arduino = None
-    print("Arduino bulunamadı, donanım kontrolleri devre dışı bırakıldı.")
+    print("Arduino not found, hardware controls are disabled.")
 
 
 def hava_durumu_getir():
@@ -65,21 +63,21 @@ def hava_durumu_getir():
         weather_code = data['current']['weather_code']
         
         aciklama_sozlugu = {
-            0: "açık ve güneşli", 1: "çoğunlukla açık", 2: "parçalı bulutlu", 
-            3: "tamamen bulutlu", 45: "sisli", 61: "hafif yağmurlu", 
-            95: "gök gürültülü fırtına"
+            0: "clear and sunny", 1: "mostly clear", 2: "partly cloudy", 
+            3: "overcast", 45: "foggy", 61: "light rain", 
+            95: "thunderstorm"
         }
-        aciklama = aciklama_sozlugu.get(weather_code, "belirsiz")
-        return f"{SEHIR}'da hava şu an {sicaklik:.1f} derece ve {aciklama}."
+        aciklama = aciklama_sozlugu.get(weather_code, "unclear")
+        return f"The weather in {SEHIR} is currently {sicaklik:.1f} degrees and {aciklama}."
     except:
-        return "Hava durumu verilerine şu an ulaşamıyorum."
+        return "I cannot access the weather data right now."
 
 def telegram_mesaj_gonder(komut):
     if not TELEGRAM_TOKEN or not VARSAYILAN_CHAT_ID:
-        return "Telegram API bilgileri eksik. Lütfen .env dosyasını kontrol et."
+        return "Telegram API information is missing. Please check the .env file."
 
     hedef_id = VARSAYILAN_CHAT_ID
-    hedef_isim = "sana"
+    hedef_isim = "you"
     
     for isim, id_no in REHBER.items():
         if id_no and isim in komut.lower():
@@ -87,23 +85,26 @@ def telegram_mesaj_gonder(komut):
             hedef_isim = isim.capitalize()
             break
 
-    icerik = komut.lower().replace("telegramdan", "").replace("mesaj gönder", "").replace("e ", "").replace("a ", "").strip()
+    # İngilizce "send message to [name]" kalıplarını temizleme
+    icerik = komut.lower().replace("send a message", "").replace("send message", "").replace("telegram", "").replace("to", "").replace(hedef_isim.lower(), "").strip()
+    
     if not icerik:
-        icerik = "Asistan üzerinden otomatik mesaj."
+        icerik = "Automated message via Assistant."
 
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     try:
         response = requests.post(url, data={"chat_id": hedef_id, "text": icerik})
         if response.status_code == 200:
-            return f"Mesajını {hedef_isim} kişisine başarıyla ilettim."
+            return f"I have successfully sent your message to {hedef_isim}."
         else:
-            return "Telegram mesajı gönderilirken bir hata oluştu, Token'ı kontrol et."
+            return "An error occurred while sending the Telegram message, check your Token."
     except:
-        return "Bağlantı hatası: İnternetini kontrol et."
+        return "Connection error: Check your internet connection."
 
 def konus(metin):
-    print("Asistan:", metin)
-    tts = gTTS(text=metin, lang='tr')
+    print("Assistant:", metin)
+    # gTTS motoru artık tamamen İngilizce (en) aksanıyla konuşacak
+    tts = gTTS(text=metin, lang='en')
     dosya = "ses.mp3"
     tts.save(dosya)
     
@@ -126,14 +127,22 @@ def konus(metin):
 
 def dinle():
     r = sr.Recognizer()
+    
+    # HIZLANDIRMA AYARLARI BURADA
+    r.pause_threshold = 0.4  # Cümle bittikten sonra bekleme süresini yarı yarıya düşürdük
+    r.non_speaking_duration = 0.2 # Sessizlik algılama hassasiyeti artırıldı
+    
     with sr.Microphone() as source:
-        print("\n🎙️ Seni dinliyorum (TR/EN)...")
+        print("\n🎙️ Listening to you (EN)...")
         r.adjust_for_ambient_noise(source, duration=0.5) 
         try:
-            audio = r.listen(source, timeout=5, phrase_time_limit=5) 
+            # timeout: Asistanın senin konuşmaya başlamanı bekleyeceği maksimum süre
+            # phrase_time_limit: Senin maksimum konuşma süren (Çok uzun tutmamak hızı artırır)
+            audio = r.listen(source, timeout=3, phrase_time_limit=4) 
             
-            metin = r.recognize_whisper(audio, model="base")
-            print(f"Sen söyledin: {metin}")
+            print("Processing audio...")
+            metin = r.recognize_whisper(audio, model="base", language="english")
+            print(f"You said: {metin}")
             return metin.lower().strip()
             
         except sr.WaitTimeoutError:
@@ -141,13 +150,13 @@ def dinle():
         except sr.UnknownValueError:
             return ""
         except Exception as e:
-            print(f"Ses algılama hatası: {e}")
+            print(f"Audio recognition error: {e}")
             return ""
 
 def cevapla(komut, komutlar):
     komut = komut.lower()
 
-    if "mesaj gönder" in komut or "telegram" in komut:
+    if "send message" in komut or "telegram" in komut:
         return telegram_mesaj_gonder(komut)
 
     for kategori, veri in komutlar.items():
@@ -156,22 +165,22 @@ def cevapla(komut, komutlar):
                 
                 if kategori == "led_1_ac":
                     if arduino: arduino.write(b'1')
-                    else: return "Donanım bağlantısı yok ama komutu algıladım."
+                    else: return "I detected the command, but there is no hardware connection."
                 elif kategori == "led_1_kapat":
                     if arduino: arduino.write(b'2')
-                    else: return "Donanım bağlantısı yok ama komutu algıladım."
+                    else: return "I detected the command, but there is no hardware connection."
                 elif kategori == "led_2_ac":
                     if arduino: arduino.write(b'3')
-                    else: return "Donanım bağlantısı yok ama komutu algıladım."
+                    else: return "I detected the command, but there is no hardware connection."
                 elif kategori == "led_2_kapat":
                     if arduino: arduino.write(b'4')
-                    else: return "Donanım bağlantısı yok ama komutu algıladım."
+                    else: return "I detected the command, but there is no hardware connection."
                 elif kategori == "led_3_ac":
                     if arduino: arduino.write(b'5')
-                    else: return "Donanım bağlantısı yok ama komutu algıladım."
+                    else: return "I detected the command, but there is no hardware connection."
                 elif kategori == "led_3_kapat":
                     if arduino: arduino.write(b'6')
-                    else: return "Donanım bağlantısı yok ama komutu algıladım."
+                    else: return "I detected the command, but there is no hardware connection."
 
                 cevap = random.choice(veri["cevap"]) if isinstance(veri["cevap"], list) else veri["cevap"]
                 cevap = cevap.replace("{saat}", datetime.now().strftime("%H:%M"))
@@ -189,7 +198,7 @@ def asistan_calistir():
     else:
         komutlar = {}
 
-    konus("Sistemler aktif, emirlerini bekliyorum.")
+    konus("Systems are online, waiting for your commands.")
 
     while True:
         try:
@@ -198,8 +207,8 @@ def asistan_calistir():
             if not komut: 
                 continue 
             
-            if any(x in komut for x in ["kapat", "görüşürüz", "shut down", "goodbye", "exit"]):
-                konus("Görüşürüz, sistemleri kapatıyorum. Shutting down.")
+            if any(x in komut for x in ["shut down", "goodbye", "exit", "turn off"]):
+                konus("Goodbye, shutting down systems.")
                 break
             
             yanit = cevapla(komut, komutlar)

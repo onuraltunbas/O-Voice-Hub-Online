@@ -1,42 +1,42 @@
 {
     "selam_ozel": {
-      "anahtarlar": ["günaydın", "iyi sabahlar", "iyi sabah", "günaydın canım"],
-      "cevap": ["Günaydın! {hava}."]
+      "anahtarlar": ["good morning", "morning", "good morning to you", "good morning dear"],
+      "cevap": ["Good morning! {hava}."]
     },
     "zaman": {
-      "anahtarlar": ["saat", "saat kaç", "şu an saat", "kaç", "zaman"],
-      "cevap": ["Şu an saat {saat}", "{saat}", "Saat {saat}"]
+      "anahtarlar": ["time", "what time is it", "current time", "what is the time"],
+      "cevap": ["The current time is {saat}", "{saat}", "It is {saat}"]
     },
     "tarih": {
-      "anahtarlar": ["tarih", "bugün ne", "günlerden ne", "hangi gündeyiz"],
-      "cevap": ["Bugün {tarih}"]
+      "anahtarlar": ["date", "what is today", "what day is it", "today's date"],
+      "cevap": ["Today is {tarih}"]
     },
     "selam": {
-      "anahtarlar": ["merhaba", "selam", "hey", "naber", "nasılsın"],
-      "cevap": ["Merhaba, ne var ne yok?", "Selam! Nasılsın, iyi misin?"]
+      "anahtarlar": ["hello", "hi", "hey", "what's up", "how are you"],
+      "cevap": ["Hello, what's going on?", "Hi! How are you doing?"]
     },
     "led_1_ac": {
-      "anahtarlar": ["sol sinyali aç", "sol sinyal ver", "sol sinyal"],
-      "cevap": ["Sol sinyal verildi, dönüşe hazırız.", "Sol sinyal açık."]
+      "anahtarlar": ["turn on left signal", "left signal on", "left signal"],
+      "cevap": ["Left signal activated, ready to turn.", "Left signal is on."]
     },
     "led_1_kapat": {
-      "anahtarlar": ["sol sinyali kapat", "sol sinyali söndür", "sol sinyali kes"],
-      "cevap": ["Sol sinyal kapatıldı."]
+      "anahtarlar": ["turn off left signal", "left signal off", "cut left signal"],
+      "cevap": ["Left signal deactivated."]
     },
     "led_2_ac": {
-      "anahtarlar": ["farları aç", "farı aç", "farları yak", "aydınlatmaları aç"],
-      "cevap": ["Farlar açıldı, yolunuz aydınlık", "Farları aktif ettim."]
+      "anahtarlar": ["turn on headlights", "headlights on", "turn on the lights", "turn the lights on"],
+      "cevap": ["Headlights are on, your path is lit.", "I activated the headlights."]
     },
     "led_2_kapat": {
-      "anahtarlar": ["farları kapat", "farı kapat", "farları söndür"],
-      "cevap": ["Farlar kapatıldı."]
+      "anahtarlar": ["turn off headlights", "headlights off", "turn the lights off"],
+      "cevap": ["Headlights are off."]
     },
     "led_3_ac": {
-      "anahtarlar": ["sağ sinyali aç", "sağ sinyal ver", "sağ sinyal"],
-      "cevap": ["Sağ sinyal verildi, dönüşe hazırız.", "Sağ sinyal açık."]
+      "anahtarlar": ["turn on right signal", "right signal on", "right signal"],
+      "cevap": ["Right signal activated, ready to turn.", "Right signal is on."]
     },
     "led_3_kapat": {
-      "anahtarlar": ["sağ sinyali kapat", "sağ sinyali söndür", "sağ sinyali kes"],
-      "cevap": ["Sağ sinyal kapatıldı."]
+      "anahtarlar": ["turn off right signal", "right signal off", "cut right signal"],
+      "cevap": ["Right signal deactivated."]
     }
 }
