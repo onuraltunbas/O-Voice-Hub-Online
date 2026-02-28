@@ -1,7 +1,7 @@
 {
-    "selam_ozel": {
-      "anahtarlar": ["good morning", "morning", "good morning to you", "good morning dear"],
-      "cevap": ["Good morning! {hava}."]
+    "selam": {
+      "anahtarlar": ["hello", "hi", "hey", "greetings"],
+      "cevap": ["Hello. How can I assist you?", "Hi there! What can I do for you?", "Hey! Need any help?"]
     },
     "zaman": {
       "anahtarlar": ["time", "what time is it", "current time", "what is the time"],
@@ -11,32 +11,28 @@
       "anahtarlar": ["date", "what is today", "what day is it", "today's date"],
       "cevap": ["Today is {tarih}"]
     },
-    "selam": {
-      "anahtarlar": ["hello", "hi", "hey", "what's up", "how are you"],
-      "cevap": ["Hello, what's going on?", "Hi! How are you doing?"]
-    },
     "led_1_ac": {
-      "anahtarlar": ["turn on left signal", "left signal on", "left signal"],
-      "cevap": ["Left signal activated, ready to turn.", "Left signal is on."]
+      "anahtarlar": ["turn on left blinker", "left blinker on"],
+      "cevap": ["Left blinker activated.", "Left blinker is on."]
     },
     "led_1_kapat": {
-      "anahtarlar": ["turn off left signal", "left signal off", "cut left signal"],
-      "cevap": ["Left signal deactivated."]
+      "anahtarlar": ["turn off left blinker", "left blinker off"],
+      "cevap": ["Left blinker deactivated.", "Left blinker is off."]
     },
     "led_2_ac": {
-      "anahtarlar": ["turn on headlights", "headlights on", "turn on the lights", "turn the lights on"],
-      "cevap": ["Headlights are on, your path is lit.", "I activated the headlights."]
+      "anahtarlar": ["turn on headlights", "headlights on"],
+      "cevap": ["Headlights are on.", "Headlights activated."]
     },
     "led_2_kapat": {
-      "anahtarlar": ["turn off headlights", "headlights off", "turn the lights off"],
-      "cevap": ["Headlights are off."]
+      "anahtarlar": ["turn off headlights", "headlights off"],
+      "cevap": ["Headlights are off.", "Headlights deactivated."]
     },
     "led_3_ac": {
-      "anahtarlar": ["turn on right signal", "right signal on", "right signal"],
-      "cevap": ["Right signal activated, ready to turn.", "Right signal is on."]
+      "anahtarlar": ["turn on right blinker", "right blinker on"],
+      "cevap": ["Right blinker activated.", "Right blinker is on."]
     },
     "led_3_kapat": {
-      "anahtarlar": ["turn off right signal", "right signal off", "cut right signal"],
-      "cevap": ["Right signal deactivated."]
+      "anahtarlar": ["turn off right blinker", "right blinker off"],
+      "cevap": ["Right blinker deactivated.", "Right blinker is off."]
     }
 }
